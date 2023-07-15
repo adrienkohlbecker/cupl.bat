@@ -9,7 +9,7 @@ set LIBCUPL=%CUPLPATH%\Shared\cupl.dl
 set PATH=%PATH%;%CUPLPATH%\WinCupl;%CUPLPATH%\WinCupl\Fitters;%CUPLPATH%\Shared
 
 if not exist "%~dpnx1" (
-	echo "Error: Input file '%~dpnx1' does not exist";
+	echo Error: Input file '%~dpnx1' does not exist
 	goto :error
 )
 
@@ -25,10 +25,13 @@ rem get device from file
 FOR /F "tokens=2 delims=; " %%D in ('FINDSTR /RB "^Device *([a-zA-Z0-9]+) *;" "%~dpnx1"') do set DEVICE=%%D
 
 rem execute cupl
-cupl.exe -a -l -e -x -f -b -j -m2 -n %DEVICE% "%~dpnx1" || echo "Error: executing cupl.exe failed" && goto :error
+cupl.exe -a -l -e -x -f -b -j -m2 -n %DEVICE% "%~dpnx1" || (
+	echo Error: executing cupl.exe failed
+	goto :error
+)
 
 if not exist "%~dpn1.jed" (
-	echo "Error: jed output from cupl.exe does not exist";
+	echo Error: jed output from cupl.exe does not exist
 	goto :error
 )
 
@@ -116,16 +119,19 @@ IF "%DEVICE%"=="f1502ispplcc44" (
 
 rem Execute fitter if needed
 IF DEFINED FITTER (
-	%FITTER% -i "%~dpn1.tt2" -CUPL %FITTER_ARGS% || echo "Error: executing fitter failed" && goto :error
+	%FITTER% -i "%~dpn1.tt2" -CUPL %FITTER_ARGS% || (
+		echo Error: executing fitter failed
+		goto :error
+	)
 	if not exist "%~dpn1.jed" (
-		echo "Error: jed output from fitter does not exist";
+		echo Error: jed output from fitter does not exist
 		goto :error
 	)
 ) ELSE (
-	echo "Device %DEVICE% does not need fitter, skipping."
+	echo Device %DEVICE% does not need fitter, skipping.
 )
 
-echo "Done!"
+echo Done!
 if "%2"=="/p" (
 	pause
 )
@@ -134,6 +140,5 @@ exit /B 0
 :error
 if "%2"=="/p" (
 	pause
-) else (
-	exit /B 1
 )
+exit /B 1

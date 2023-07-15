@@ -73,8 +73,10 @@ Copyright 1999,2000 Atmel Corporation
 "Done!"
 ```
 
-5. And additional `.FIT` file becomes available with details on how the fitting process went.
+5. An additional `.FIT` file becomes available with details on how the fitting process went.
 
 ### Pause
 
-If you need to execute `cupl.bat` as an editor build command, and to keep `CMD.exe` open after compilation, `cupl.bat /p` pauses execution before closing the window. For example, I have mapped `C:\Wincupl\Projects\cupl.bat "$(FULL_CURRENT_PATH)" /p` to F6 in my Notepad++ configuration.
+If you need to execute `cupl.bat` as an editor build command, and to keep `CMD.exe` open after compilation, `cupl.bat /p` pauses execution before closing the window.
+
+For example, I have mapped `C:\Wincupl\Projects\cupl.bat "$(FULL_CURRENT_PATH)" /p` to F6 in my Notepad++ configuration.
