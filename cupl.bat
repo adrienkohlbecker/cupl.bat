@@ -24,6 +24,11 @@ for %%e in (abs doc fit io jed lst mx pin pla sim tt2 tt3) do (
 rem get device from file
 FOR /F "tokens=2 delims=; " %%D in ('FINDSTR /RB "^Device *([a-zA-Z0-9]+) *;" "%~dpnx1"') do set DEVICE=%%D
 
+IF NOT DEFINED DEVICE (
+	echo Error: Unable to automatically detect device from file. Make sure to use `Device XXX;` in your design.
+	goto :error
+)
+
 rem execute cupl
 cupl.exe -a -l -e -x -f -b -j -m2 -n %DEVICE% "%~dpnx1" || (
 	echo Error: executing cupl.exe failed
